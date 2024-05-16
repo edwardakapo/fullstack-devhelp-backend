@@ -39,7 +39,7 @@ app.use(profileController)
 mongoDatabase.connect(MONGO_URI)
 //console.log = function() {};
 
-const port = process.env.PORT || 3000;
+const port = process.env.YOUR_PORT || process.env.PORT;
 
 function verifyLoggedIn(token) {
     jwt.verify(token , APP_TOKEN , function(err , decoded) {
