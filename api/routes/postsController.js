@@ -98,6 +98,7 @@ router.get("/post/:id/likes", async (req, res) => {
 router.get("/post/:id/comments", async (req, res) => {
     const postId = req.params.id;
     var comments = []
+    console.log("Getting comments")
     try {
         const post = await Post.findById(postId);
         if (!post) {
