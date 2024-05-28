@@ -64,7 +64,7 @@ router.route('/login')
             res.cookie('token', token, secureCookieOptions);
             res.cookie('user', JSON.stringify(user), secureCookieOptions);
             res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000, domain : DOMAIN});
+            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
             res.status(200).json({Token : token , userObj : user})
         }
         else {
