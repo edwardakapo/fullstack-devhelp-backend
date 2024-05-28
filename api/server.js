@@ -18,6 +18,8 @@ function refreshCookie(req , res , next){
 const corsOptions = {
 	origin : process.env.CLIENT_ORIGIN,
 	credentials: true,
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+	allowedHeaders: ['Content-Type', 'Authorization']
 
 };
 //middleware
