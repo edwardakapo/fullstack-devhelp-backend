@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const qs = require('qs')
 require("dotenv").config()
-const  { APP_TOKEN, DEFAULT_IMG_URL , MAX_AGE} = process.env
+const  { APP_TOKEN, DEFAULT_IMG_URL , MAX_AGE, CLIENT_ORIGIN, DOMAIN} = process.env
 const {OAuth2Client} = require('google-auth-library')
 const { getGoogleOAuthTokens } = require('../controller/functions')
 const auth = require("../middleware/auth")
@@ -64,7 +64,7 @@ router.route('/login')
             res.cookie('token', token, secureCookieOptions);
             res.cookie('user', JSON.stringify(user), secureCookieOptions);
             res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
+            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000, domain : DOMAIN});
             res.status(200).json({Token : token , userObj : user})
         }
         else {
