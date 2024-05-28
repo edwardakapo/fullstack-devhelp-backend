@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken") ;
 require("dotenv").config();
 const  { APP_TOKEN } = process.env;
+const cookieOptions = { sameSite: 'None', secure : true}
 
 
 

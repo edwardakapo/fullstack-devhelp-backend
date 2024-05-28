@@ -9,9 +9,9 @@ const  { APP_TOKEN, DEFAULT_IMG_URL , MAX_AGE} = process.env
 const {OAuth2Client} = require('google-auth-library')
 const { getGoogleOAuthTokens } = require('../controller/functions')
 const auth = require("../middleware/auth")
-
-
-
+const cookieOptions = { sameSite: 'None', secure : true}
+const secureCookieOptions = { httpOnly : true, sameSite: 'None', secure : true}
+ 
 //login to an existing user, if not return error code to be handled by front-end
 router.route('/login')
 .get( (req, res, next) => {
@@ -61,10 +61,10 @@ router.route('/login')
                 picture : user.profileImageUrl,
                 username : user.username,
             }
-            res.cookie('token', token, { httpOnly: true });
-            res.cookie('user', JSON.stringify(user), { httpOnly: true });
-            res.cookie('userInfo' , JSON.stringify(publicUserInfo));
-            res.cookie("isLoggedIn", "True", {maxAge: 3600000});
+            res.cookie('token', token, secureCookieOptions);
+            res.cookie('user', JSON.stringify(user), secureCookieOptions);
+            res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
             res.status(200).json({Token : token , userObj : user})
         }
         else {
@@ -136,10 +136,10 @@ router.route("/register")
             picture : user.profileImageUrl,
             username : user.username,
         }
-        res.cookie('token', token, { httpOnly: true });
-        res.cookie('user', JSON.stringify(user), { httpOnly: true });
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo));
-        res.cookie("isLoggedIn", "True", {maxAge: 3600000});
+        res.cookie('token', token, secureCookieOptions);
+        res.cookie('user', JSON.stringify(user), secureCookieOptions);
+        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         
         res.status(200).json({user : user , Token : token});
         console.log("user created")
@@ -207,10 +207,10 @@ router.get("/oauth/google", async (req, res) => {
             picture : user.profileImageUrl,
             username : user.username,
         }
-        res.cookie('token', token, { httpOnly: true });
-        res.cookie('user', JSON.stringify(user), { httpOnly: true });
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo));
-        res.cookie("isLoggedIn", "True", {maxAge: 3600000});
+        res.cookie('token', token, secureCookieOptions);
+        res.cookie('user', JSON.stringify(user), secureCookieOptions);
+        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         //return res.redirect('/');
         return res.redirect(process.env.CLIENT_ORIGIN);
         //return res.status(200).json({message : "User exists logging in" ,user : user , Bearer : token});
@@ -243,10 +243,10 @@ router.get("/oauth/google", async (req, res) => {
             picture : newUser.profileImageUrl,
             username : newUser.username,
         }
-        res.cookie('token', token, { httpOnly: true });
-        res.cookie('user', JSON.stringify(user), { httpOnly: true });
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo));
-        res.cookie("isLoggedIn", "True", {maxAge: 3600000});
+        res.cookie('token', token, secureCookieOptions);
+        res.cookie('user', JSON.stringify(user), secureCookieOptions);
+        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         //return res.redirect('/');
         return res.redirect(process.env.CLIENT_ORIGIN);
 
