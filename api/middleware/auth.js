@@ -8,9 +8,7 @@ const cookieOptions = { sameSite: 'None', secure : true, maxAge: 3600000}
 const verifyToken = (req, res, next) => {
     // Get the token from the 'token' cookie
     const token = req.cookies.token;
-    if (req.cookies.isLoggedIn) {
-        res.cookie("isLoggedIn", "True", cookieOptions);
-    }
+
     if (!token) {
         console.log("token invalid CHECK AUTHORIZATION HEADER")
         return res.status(402).json("A token is required for authentication")

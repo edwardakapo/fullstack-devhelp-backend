@@ -28,6 +28,11 @@ router.get("/profile" , auth , async(req , res) => {
 
 });
 
+router.get("/userInfo" , auth, async(req,res) => {
+    console.log("calling get userInfo route function")
+    res.status(200)
+})
+
 //update password
 router.patch("/profile/password" , auth , async(req , res) => {
 

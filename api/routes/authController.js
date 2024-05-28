@@ -9,7 +9,7 @@ const  { APP_TOKEN, DEFAULT_IMG_URL , MAX_AGE, CLIENT_ORIGIN, DOMAIN} = process.
 const {OAuth2Client} = require('google-auth-library')
 const { getGoogleOAuthTokens } = require('../controller/functions')
 const auth = require("../middleware/auth")
-const cookieOptions = { sameSite: 'None', secure : true}
+const cookieOptions = { sameSite: 'None', secure : true, httpOnly : false}
 const secureCookieOptions = { httpOnly : true, sameSite: 'None', secure : true}
  
 //login to an existing user, if not return error code to be handled by front-end
@@ -63,9 +63,9 @@ router.route('/login')
             }
             res.cookie('token', token, secureCookieOptions);
             res.cookie('user', JSON.stringify(user), secureCookieOptions);
-            res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-            res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
-            res.status(200).json({Token : token , userObj : user})
+            //res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+            //res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000, httpOnly : false});
+            res.status(200).json({Token : token , userObj : user, userInfo : JSON.stringify(publicUserInfo)})
         }
         else {
             console.log("password incorrect")
@@ -138,10 +138,10 @@ router.route("/register")
         }
         res.cookie('token', token, secureCookieOptions);
         res.cookie('user', JSON.stringify(user), secureCookieOptions);
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
+        //res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        //res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         
-        res.status(200).json({user : user , Token : token});
+        res.status(200).json({user : user , Token : token, userInfo : JSON.stringify(publicUserInfo)});
         console.log("user created")
 
 
@@ -163,9 +163,7 @@ router.route("/logout")
         // Clear the 'token' and 'user' cookies
         res.clearCookie('token');
         res.clearCookie('user');
-        res.clearCookie('userInfo')
-        res.clearCookie('isLoggedIn')
-        res.status(200).send('cookies deleted');
+        res.status(200).send('User has Been Logged Out');
     }
     catch (err) {
         console.log(err)
@@ -209,8 +207,8 @@ router.get("/oauth/google", async (req, res) => {
         }
         res.cookie('token', token, secureCookieOptions);
         res.cookie('user', JSON.stringify(user), secureCookieOptions);
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
+        //res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        //res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         //return res.redirect('/');
         return res.redirect(process.env.CLIENT_ORIGIN);
         //return res.status(200).json({message : "User exists logging in" ,user : user , Bearer : token});
@@ -245,11 +243,10 @@ router.get("/oauth/google", async (req, res) => {
         }
         res.cookie('token', token, secureCookieOptions);
         res.cookie('user', JSON.stringify(user), secureCookieOptions);
-        res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
-        res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
+        //res.cookie('userInfo' , JSON.stringify(publicUserInfo), cookieOptions);
+        //res.cookie("isLoggedIn", "True", {sameSite: 'None', secure : true, maxAge: 3600000});
         //return res.redirect('/');
         return res.redirect(process.env.CLIENT_ORIGIN);
-
         //return res.status(201).json({message : "User created", user : newUser , Bearer : token});
       
 
